@@ -7,9 +7,13 @@ from flask import Flask, request, render_template
 app = Flask(__name__)
 
 
+def log(message):
+    print str(message)
+    sys.stdout.flush()
+
+
 @app.route('/', methods=['GET'])
 def verify():
-    
     if request.args.get("hub.mode") == "subscribe"and request.args.get("hub.challenge"):
         if not request.args.get("hub.verify_token") == os.environ["VERIFY_TOKEN"]:
             return "Verification token mismatch", 403
@@ -18,9 +22,9 @@ def verify():
     # return "Assistant", 200
     return render_template('index.html'), 200
 
+
 @app.route('/', methods=['POST'])
 def webhook():
-
     data = request.get_json()
     log(data)
 
@@ -42,8 +46,8 @@ def webhook():
 
     return "ok", 200
 
-def send_text(recipient_id, message_text):
 
+def send_text(recipient_id, message_text):
     params = {
         "access_token": os.environ["PAGE_ACCESS_TOKEN"]
     }
@@ -64,13 +68,14 @@ def send_text(recipient_id, message_text):
         log(r.status_code)
         log(r.text)
 
-def user(sender):
 
+def user(sender):
     r = requests.get('https://graph.facebook.com/v2.6/' + str(sender), params={
                 'fields': 'first_name',
                 'access_token': os.environ["PAGE_ACCESS_TOKEN"]
             })
     log(r.json())
+
 
 if __name__ == '__main__':
     app.run(debug=True)
