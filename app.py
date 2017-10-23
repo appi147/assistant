@@ -42,7 +42,7 @@ def webhook():
                     log(sender_id)
                     user(sender_id)
                     reply = "In testing"
-                    send_text_message(sender_id, reply)
+                    send_text(sender_id, reply)
 
     return "ok", 200
 
