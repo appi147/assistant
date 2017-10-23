@@ -1,0 +1,27 @@
+/*css added for hover effect*/
+table.hov td {
+background-color: none;
+}
+table.hov td:hover {
+  background-color: rgba(73,73,73,.3);
+  border-width: 4px 4px;
+  border-radius: 0px 0px 20px 20px;
+}
+nav.hovtop li{
+background-color: none;
+}
+nav.hovtop li:hover {
+  background-color: rgba(73,73,73,.3);
+  border-top-left-radius: 20%;
+  border-top-right-radius: 20%;
+}
+/*background image*/
+body {
+	width: 100%;
+}
+.bgme {
+	background-image: url(../img/bg.jpg);
+	background-position: left;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
