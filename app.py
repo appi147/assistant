@@ -3,6 +3,8 @@ import sys
 import json
 import requests
 from flask import Flask, request, render_template
+from assist import handler
+
 
 app = Flask(__name__)
 
@@ -26,7 +28,6 @@ def verify():
 @app.route('/', methods=['POST'])
 def webhook():
     data = request.get_json()
-    log(data)
 
     if data["object"] == "page":
 
@@ -38,13 +39,16 @@ def webhook():
                     sender_id = messaging_event["sender"]["id"]
                     recipient_id = messaging_event["recipient"]["id"]
                     message_text = messaging_event["message"]["text"]
-
-                    log(sender_id)
-                    user(sender_id)
-                    reply = "In testing"
-                    send_text(sender_id, reply)
+                    nlp = messaging_event["message"]["nlp"]
+                    entities = nlp["entities"]
+                    execute(sender_id, entities, message_text)
 
     return "ok", 200
+
+def execute(sender_id, entities, text):
+    user(sender_id)
+    reply = "Under development"
+    send_text(sender_id, reply)
 
 
 def send_text(recipient_id, message_text):
