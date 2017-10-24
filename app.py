@@ -47,6 +47,7 @@ def webhook():
 
 def execute(sender_id, entities, text):
     user(sender_id)
+    handler(entities, text)
     reply = "Under development"
     send_text(sender_id, reply)
 
