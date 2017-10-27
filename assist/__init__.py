@@ -19,4 +19,5 @@ def user(sender):
                 'fields': 'first_name',
                 'access_token': os.environ["PAGE_ACCESS_TOKEN"]
             })
-    return r['first_name']
+    user_data = r.json()
+    return user_data['first_name']
