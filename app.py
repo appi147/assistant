@@ -35,6 +35,7 @@ def webhook():
                     message_text = messaging_event["message"]["text"]
                     nlp = messaging_event["message"]["nlp"]
                     entities = nlp["entities"]
+                    log(entities)
                     execute(sender_id, entities, message_text)
 
     return "ok", 200
