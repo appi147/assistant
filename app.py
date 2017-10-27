@@ -47,8 +47,11 @@ def webhook():
 
 def execute(sender_id, entities, text):
     user(sender_id)
-    handler(entities, text)
-    reply = "Under development"
+    responses = handler(entities, text)
+    for response in responses:
+        if response == 'greetings':
+            send_text(sender_id, 'Hi' + user(sender_id))
+    reply = "Assistant is currently under development"
     send_text(sender_id, reply)
 
 
@@ -79,8 +82,7 @@ def user(sender):
                 'fields': 'first_name',
                 'access_token': os.environ["PAGE_ACCESS_TOKEN"]
             })
-    log(r.json())
-
+    return r['first_name']
 
 if __name__ == '__main__':
     app.run(debug=True)

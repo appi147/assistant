@@ -4,11 +4,19 @@ import json
 
 
 def handler(entities, text):
-    log(entities)
+    response = []
     for entity in entities:
-        log(entity)
-    log(text)
+        if entity == 'greetings' and entity['confidence'] >= 0.8:
+            response.append('greetings')
+    return response
 
 def log(message):
     print(str(message))
     sys.stdout.flush()
+
+def user(sender):
+    r = requests.get('https://graph.facebook.com/v2.6/' + str(sender), params={
+                'fields': 'first_name',
+                'access_token': os.environ["PAGE_ACCESS_TOKEN"]
+            })
+    return r['first_name']
