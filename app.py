@@ -1,26 +1,34 @@
+"""
+This is the main program which contains
+GET and POST methods
+"""
 import os
 from flask import Flask, request, render_template
-from assist import handler
+from modules import handler
 from basic import log, user, message
 
 
 APP = Flask(__name__)
 
 
-
 @APP.route('/', methods=['GET'])
 def verify():
+    """
+    This verifies Tokens and renders webpage
+    """
     if request.args.get("hub.mode") == "subscribe"and request.args.get("hub.challenge"):
         if not request.args.get("hub.verify_token") == os.environ["VERIFY_TOKEN"]:
             return "Verification token mismatch", 403
         return request.args["hub.challenge"], 200
 
-    # return "Assistant", 200
     return render_template('index.html'), 200
 
 
 @APP.route('/', methods=['POST'])
 def webhook():
+    """
+    Webhook is set here and message is extracted for processing
+    """
     data = request.get_json()
 
     if data["object"] == "page":
@@ -42,8 +50,11 @@ def webhook():
 
 
 def execute(sender_id, entities, text):
+    """
+    Message is processed and reply is generated
+    """
     user(sender_id)
-    responses = handler(entities, text)
+    responses = handler(entities)
     for response in responses:
         if response == 'greetings':
             reply = 'Hi' + user(sender_id)

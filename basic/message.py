@@ -1,10 +1,14 @@
-import requests
+"""
+Various types of message templates are stored here
+"""
 import os
 import json
+import requests
 from . import log
 
 
 def text(recipient_id, message_text):
+    """This is test message"""
     params = {
         "access_token": os.environ["PAGE_ACCESS_TOKEN"]
     }
@@ -19,8 +23,8 @@ def text(recipient_id, message_text):
             "text": message_text
         }
     })
-    r = requests.post("https://graph.facebook.com/v2.6/me/messages",
-                      params=params, headers=headers, data=data)
-    if r.status_code != 200:
-        log(r.status_code)
-        log(r.text)
+    resp = requests.post("https://graph.facebook.com/v2.6/me/messages",
+                         params=params, headers=headers, data=data)
+    if resp.status_code != 200:
+        log(resp.status_code)
+        log(resp.text)
