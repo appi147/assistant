@@ -13,7 +13,7 @@ class Bot():
     """
     def __init__(self):
         self.actions = (
-            "qotd",
+            "quote",
         )
 
 

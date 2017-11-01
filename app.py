@@ -57,6 +57,7 @@ def execute(sender_id, entities, text):
     bot = Bot()
     responses = bot.handler(text, entities, sender_id)
     responses.append("Assistant is currently under development")
+    log(responses)
     for reply in responses:
         message.text(sender_id, reply)
 
