@@ -4,7 +4,7 @@ GET and POST methods
 """
 import os
 from flask import Flask, request, render_template
-from modules import handler
+from modules import Bot
 from basic import log, user, message
 
 
@@ -54,14 +54,11 @@ def execute(sender_id, entities, text):
     Message is processed and reply is generated
     """
     user(sender_id)
-    responses = handler(entities)
-    for response in responses:
-        if response == 'greetings':
-            reply = 'Hi' + user(sender_id)
-            log(reply)
-            message.text(sender_id, reply)
-    reply = "Assistant is currently under development"
-    message.text(sender_id, reply)
+    bot = Bot()
+    responses = bot.handler(text, entities, sender_id)
+    responses.append("Assistant is currently under development")
+    for reply in responses:
+        message.text(sender_id, reply)
 
 
 if __name__ == '__main__':
