@@ -19,12 +19,12 @@ class Bot():
 
     def nlp_handler(self, entities, s_id):
         """NLP is done here"""
-        response = []
+        responses = []
         for entity in entities:
             if entity == 'greetings' and entities['greetings'][0]['confidence'] >= 0.8:
-                response.append('Hi '+ user(s_id))
+                responses.append('Hi '+ user(s_id))
 
-        return response
+        return responses
 
 
     def text_handler(self, text):
@@ -32,7 +32,9 @@ class Bot():
         commands = self._find(text)
         responses = []
         for command in commands:
-            responses.append(getattr(self, command)(text))
+            resp = (getattr(self, command)(text))
+            for response in resp:
+                responses.append(response)
         return responses
 
     def _find(self, message):
@@ -53,9 +55,14 @@ class Bot():
 
     def handler(self, text, entities, s_id):
         """Proceeses and generates replies"""
+        resp = []
         responses = self.nlp_handler(entities, s_id)
-        responses.append(self.text_handler(text))
-        return responses
+        for response in responses:
+            resp.append(response)
+        responses = self.text_handler(text)
+        for response in responses:
+            resp.append(response)
+        return resp
 
 ###############################################################################
 # Features to be added after this line in alphabetical order
