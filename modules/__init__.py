@@ -65,5 +65,6 @@ class Bot():
         resp = []
         quote = app.get_quote()
         author = app.get_by()
-        resp.append(quote, author)
+        resp.append(quote)
+        resp.append('By ' + author)
         return resp
