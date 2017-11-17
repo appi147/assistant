@@ -1,3 +1,4 @@
 *.pyc
 env/
 test.sh
+local.py
