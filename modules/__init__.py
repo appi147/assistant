@@ -16,16 +16,14 @@ class Bot():
             "quote",
         )
 
-
     def nlp_handler(self, entities, s_id):
         """NLP is done here"""
         responses = []
         for entity in entities:
             if entity == 'greetings' and entities['greetings'][0]['confidence'] >= 0.8:
-                responses.append('Hi '+ user(s_id))
+                responses.append('Hi ' + user(s_id))
 
         return responses
-
 
     def text_handler(self, text):
         """Processes commands"""
@@ -51,7 +49,6 @@ class Bot():
                     command.append(word)
 
         return command
-
 
     def handler(self, text, entities, s_id):
         """Proceeses and generates replies"""
