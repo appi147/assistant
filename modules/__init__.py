@@ -5,6 +5,7 @@ Also, NLP is done here
 import json
 from forbesqotd import qotd
 from basic import user
+from . import movie
 
 
 class Bot():
@@ -13,6 +14,7 @@ class Bot():
     """
     def __init__(self):
         self.actions = (
+            "movie",
             "quote",
         )
 
@@ -30,7 +32,7 @@ class Bot():
         commands = self._find(text)
         responses = []
         for command in commands:
-            resp = (getattr(self, command)(text))
+            resp = (getattr(self, command)(text.replace(command, '')))
             for response in resp:
                 responses.append(response)
         return responses
@@ -56,13 +58,27 @@ class Bot():
         responses = self.nlp_handler(entities, s_id)
         for response in responses:
             resp.append(response)
-        responses = self.text_handler(text)
+        responses = self.text_handler(text.lower())
         for response in responses:
             resp.append(response)
         return resp
 
 ###############################################################################
 # Features to be added after this line in alphabetical order
+    def movie(self, text=None):
+        """Movie-IMDb"""        
+        resp = []
+        options = ["cast", "director", "plot", "producer", "rating", "year"]
+        movieName = text
+        for option in options:
+            movieName = movieName.replace(option, '')
+        for i in range(len(options)):
+            movieName.replace('  ', ' ')
+        for option in options:
+            if option in text:
+                resp.append(option + ': ' + str(getattr(movie, option)(movieName)))
+        return resp
+
     def quote(self, text=None):
         """Returns a quote"""
         app = qotd.forbes()
