@@ -24,6 +24,14 @@ def verify():
     return render_template('index.html'), 200
 
 
+@APP.route('/privacypolicy', methods=['GET'])
+def privacy_policy():
+    """
+    Our privacy policy
+    """
+    return render_template('privacypolicy.html'), 200
+
+
 @APP.route('/', methods=['POST'])
 def webhook():
     """
