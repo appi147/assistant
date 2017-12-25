@@ -2,7 +2,6 @@
 Modules are handled here
 Also, NLP is done here
 """
-import json
 from forbesqotd import qotd
 from basic import user
 from . import movie
@@ -20,47 +19,35 @@ class Bot():
 
     def nlp_handler(self, entities, s_id):
         """NLP is done here"""
-        responses = []
+        resp = []
         for entity in entities:
             if entity == 'greetings' and entities['greetings'][0]['confidence'] >= 0.65:
-                responses.append('Hi ' + user(s_id))
-
-        return responses
+                resp.append('Hi ' + user(s_id))
+        return resp
 
     def text_handler(self, text):
         """Processes commands"""
         commands = self._find(text)
-        responses = []
+        resp = []
         for command in commands:
-            resp = (getattr(self, command)(text.replace(command, '')))
-            for response in resp:
-                responses.append(response)
-        return responses
+            resp.extend(getattr(self, command)(text.replace(command, '')))
+        return resp
 
     def _find(self, message):
         """Finds commands"""
         command = []
-
         words = message.split()
-        words_remaining = message.split()
-
         for word in words:
-            words_remaining.remove(word)
             for action in self.actions:
                 if word == action:
                     command.append(word)
-
         return command
 
     def handler(self, text, entities, s_id):
         """Proceeses and generates replies"""
         resp = []
-        responses = self.nlp_handler(entities, s_id)
-        for response in responses:
-            resp.append(response)
-        responses = self.text_handler(text.lower())
-        for response in responses:
-            resp.append(response)
+        resp.extend(self.nlp_handler(entities, s_id))
+        resp.extend(self.text_handler(text.lower()))
         return resp
 
 ###############################################################################
