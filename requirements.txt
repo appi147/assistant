@@ -3,3 +3,4 @@ gunicorn==19.7.1
 requests==2.18.4
 forbesqotd==2.0
 IMDbPY==6.2
+pycricbuzz==2
