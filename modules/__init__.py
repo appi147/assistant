@@ -22,7 +22,7 @@ class Bot():
         """NLP is done here"""
         responses = []
         for entity in entities:
-            if entity == 'greetings' and entities['greetings'][0]['confidence'] >= 0.8:
+            if entity == 'greetings' and entities['greetings'][0]['confidence'] >= 0.65:
                 responses.append('Hi ' + user(s_id))
 
         return responses
