@@ -90,6 +90,8 @@ def preview():
             resp.append(match['mnum'])
             resp.append(match['status'])
             resp.extend(commentary(match['id']))
+    if not resp:
+        return ['No match upcoming']
     return resp
 
 
@@ -99,6 +101,8 @@ def result():
     for match in current_matches:
         if match['mchstate'] == 'Result':
             resp.extend(scorecard(match['id']))
+    if not resp:
+        return ['No match has recently ended']
     return resp
 
 
@@ -108,6 +112,8 @@ def live():
     for match in current_matches:
         if match['mchstate'] == 'live':
             resp.append(live_score(match['id']))
+    if not resp:
+        return ['No live matches going on']
     return resp
 
 if __name__ == '__main__':
