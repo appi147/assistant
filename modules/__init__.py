@@ -66,7 +66,8 @@ class Bot():
 ###############################################################################
 # Features to be added after this line in alphabetical order
     def movie(self, text=None):
-        """Movie-IMDb"""        
+        """Movie-IMDb"""
+        return ['Movie feature is currently down']
         resp = []
         options = ["cast", "director", "plot", "producer", "rating", "year"]
         movieName = text
