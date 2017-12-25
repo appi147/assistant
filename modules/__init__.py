@@ -4,7 +4,7 @@ Also, NLP is done here
 """
 from forbesqotd import qotd
 from basic import user
-from . import movie
+from . import movie, cric
 
 
 class Bot():
@@ -13,6 +13,7 @@ class Bot():
     """
     def __init__(self):
         self.actions = (
+            "cricket",
             "movie",
             "quote",
         )
@@ -52,6 +53,15 @@ class Bot():
 
 ###############################################################################
 # Features to be added after this line in alphabetical order
+    def cricket(self, text=None):
+        """Cricket scores"""
+        resp = []
+        options = ['live', 'preview', 'result']
+        for option in options:
+            if option in text:
+                resp.extend(getattr(cric, option)())
+        return resp
+
     def movie(self, text=None):
         """Movie-IMDb"""
         return ['Movie feature is currently down']
