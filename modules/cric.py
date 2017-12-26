@@ -30,25 +30,23 @@ def live_score(mid):
     score['status'] = "{}, {}".format(data['matchinfo']['mchstate'].title(), data['matchinfo']['status'])
     score['bowling'] = data['bowling']
     score['batting'] = data['batting']
+    resp.append(score['matchinfo'] + '\n' + score['status'])
 
     text = ''
-    text += score['matchinfo'] + '\n' + score['status'] + '\n'
-    text += score['batting']['team'] + '\n'
-    resp.append(text)
-
-    text = ''
+    text += score['batting']['team']
     for scr in reversed(score['batting']['score']):
-        text += "{} :- {}/{} in {} overs\n".format(scr['desc'], scr['runs'], scr['wickets'], scr['overs'])
+        text += "\n{} :- {}/{} in {} overs".format(scr['desc'], scr['runs'], scr['wickets'], scr['overs'])
     for b in reversed(score['batting']['batsman']):
-        text += "{} : {}({}) \n".format(b['name'].strip('*'), b['runs'], b['balls'])
-    text += "\n" + score['bowling']['team'] + '\n'
+        text += "\n{} : {}({})".format(b['name'].strip('*'), b['runs'], b['balls'])
     resp.append(text)
 
     text = ''
+    text += score['bowling']['team']
     for scr in reversed(score['bowling']['score']):
-        text += "{} :- {}/{} in {} overs\n".format(scr['desc'], scr['runs'], scr['wickets'], scr['overs'])
+        text += "\n{} :- {}/{} in {} overs".format(scr['desc'], scr['runs'], scr['wickets'], scr['overs'])
     for b in reversed(score['bowling']['bowler']):
-        text += "{} : {}/{} \n".format(b['name'].strip('*'), b['wickets'], b['runs'])
+        text += "\n{} : {}/{}".format(b['name'].strip('*'), b['wickets'], b['runs'])
+    resp.append(text)
     return resp
 
 
@@ -110,8 +108,8 @@ def live():
     resp = []
     current_matches = c.matches()
     for match in current_matches:
-        if match['mchstate'] == 'live':
-            resp.append(live_score(match['id']))
+        if match['mchstate'] == 'inprogress' or match['mchstate'] == 'stump':
+            resp.extend(live_score(match['id']))
     if not resp:
         return ['No live matches going on']
     return resp
